@@ -1,0 +1,8 @@
+.DS_Store
+# Data and autosave from matlab#
+###################
+*.mat
+*.asv
+.svn/*
+*.fig
+Untitled*.*
