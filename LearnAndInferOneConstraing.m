@@ -106,7 +106,7 @@ new_labels = init'-1;
 [new_labels E Eafter] = GCMex(init-1, single(full(log_Pot * alpha_opt)'), (1 - alpha_opt) * Gr_tot, labelCost(1:end,1:end),1);
 
 %%
-for k = 1 : 1
+for k = 1 : 10
     new_labels = new_labels + 1;
     if ~RF        
         WorkOutUnariesReg;
@@ -128,8 +128,10 @@ for k = 1 : 1
     
     %log_Pot = log_Pot;
     
+    WorkOutConstraintAddendums;
+    
     my_labels = new_labels;
-    [new_labels E Eafter] = GCMex(new_labels-1, single(full(log_Pot * alpha_opt)'), (1 - alpha_opt) * Gr_tot, labelCost(1:end,1:end),1);
+    [new_labels E Eafter] = GCMex(new_labels-1, single(full(log_Pot * alpha_opt)' - 1.05 * Ksi'), (1 - alpha_opt) * Gr_tot, labelCost(1:end,1:end),1);
     %new_labels = active_alpha_mex(  'init',  Gr_tot, sparse(log_Pot / alpha_opt));
     clear active_alpha_mex
     %%
@@ -155,4 +157,5 @@ for k = 1 : 1
     end
     fprintf('Step %d, total accuracy = %f, average = %f, per node acc = %f \n, Energy = %f, Energy after = %f \n', ...
         k, per_pix_acc, mean(diag(cm)), per_node_acc, E, Eafter);
+    scratchpad
 end
