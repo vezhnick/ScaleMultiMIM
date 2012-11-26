@@ -24,4 +24,4 @@ ImIdxB = 2:2:length(Index);
 
 alpha = [ 0.8 1];
 
-[new_labels, idx_train, freq] = LearnAndInferOneConstraing(Files, 'A_zombie', ImIdxA, features_names, K, L, alpha); %_skeleton
+[new_labels, idx_train, freq] = LearnAndInferOneConstraintBase(Files, 'A_zombie', ImIdxA, features_names, K, L, alpha); %_skeleton
