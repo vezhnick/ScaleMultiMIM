@@ -1,4 +1,6 @@
-k = 0;
+
+per_class_miss = zeros(1,33);
+
 for im = 1 : length(ImageToSpIdx)
     intern_idx = [ImageToSpIdx{im}.offset + 1: ImageToSpIdx{im}.offset + ImageToSpIdx{im}.tot_sp];
     sp_labels = new_labels(intern_idx)+1;
@@ -7,12 +9,9 @@ for im = 1 : length(ImageToSpIdx)
     if ~isempty(labels_diff)
         
         labels_diff;
-        %if( ismember(1,labels_diff))
-        k = k + 1;
-        %end
+        per_class_miss(labels_diff) = per_class_miss(labels_diff) + 1;
+
         
     end
     
 end
-
-k

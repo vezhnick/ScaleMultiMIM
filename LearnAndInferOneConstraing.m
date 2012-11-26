@@ -105,8 +105,35 @@ new_labels = init'-1;
 %return;
 [new_labels E Eafter] = GCMex(init-1, single(full(log_Pot * alpha_opt)'), (1 - alpha_opt) * Gr_tot, labelCost(1:end,1:end),1);
 
+
 %%
-for k = 1 : 10
+
+per_class_miss = zeros(1,33);
+
+for im = 1 : length(ImageToSpIdx)
+    intern_idx = [ImageToSpIdx{im}.offset + 1: ImageToSpIdx{im}.offset + ImageToSpIdx{im}.tot_sp];
+    sp_labels = new_labels(intern_idx)+1;
+    
+    labels_diff = setdiff(ImageToSpIdx{im}.labels, sp_labels);
+    if ~isempty(labels_diff)
+        
+        labels_diff;
+        per_class_miss(labels_diff) = per_class_miss(labels_diff) + 1;
+        %if( ismember(1,labels_diff))
+        k = k + 1;
+        %end
+        
+    end
+    
+end
+
+[trash classes_by_miss] = sort(per_class_miss,'descend')
+
+%%
+
+fixed_labels =[];
+
+for k = classes_by_miss
     new_labels = new_labels + 1;
     if ~RF        
         WorkOutUnariesReg;
@@ -119,14 +146,14 @@ for k = 1 : 10
     
     
     [junk init] = max(-log_Pot(:,1:end)');
+    
+    %%% Handling alpha
     if(alpha(1) == -1)
         Gr_stat = full(median(sum(Gr_tot)));
         alpha_opt = -median(junk - max(junk)) / Gr_stat;
     else
         alpha_opt = alpha(1);
     end
-    
-    %log_Pot = log_Pot;
     
     WorkOutConstraintAddendums;
     
