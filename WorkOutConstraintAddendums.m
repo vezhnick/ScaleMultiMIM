@@ -40,12 +40,16 @@ for im = 1 : length(ImageToSpIdx)
         
     end
     
+    
     for l = fixed_labels
-        
-        E_l = alpha_opt * log_Pot(intern_idx,l)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= l)');
-        
-        [trash min_id] = min(E_l);
-        Ksi(ImageToSpIdx{im}.offset + min_id,l) = 10000;
+        if ismember(l, ImageToSpIdx{im}.labels)
+            
+            E_l = alpha_opt * log_Pot(intern_idx,l)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= l)');
+            E_d = E_l - E_c(intern_idx);
+            
+            [trash min_id] = min(E_d);
+            Ksi(ImageToSpIdx{im}.offset + min_id,l) = 10000;
+        end
         
     end
     
