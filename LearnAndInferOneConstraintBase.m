@@ -131,8 +131,9 @@ end
 
 %%
 
-
-for k = 1:1
+    Ksi = log_Pot * 0;
+    
+for k = 1:2
     new_labels = new_labels + 1;
     if ~RF        
         WorkOutUnariesReg;
@@ -162,7 +163,7 @@ for k = 1:1
         Gr_c(sp_l,sp_l) = 0;
     end
     
-    Ksi = log_Pot * 0;
+
     
     
     %label_agreement = (L_c*L_c') > 0;
@@ -189,10 +190,10 @@ for k = 1:1
             E_l = alpha_opt * log_Pot(intern_idx,l)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= l)');
             
             E_d = E_l - E_c(intern_idx);
-            [val idx] = min(E_d);
+            [val, idx] = min(E_d);
             Ksi(ImageToSpIdx{im}.offset + idx, l) = 1000;
             
-            intern_idx = setdiff(intern_idx, idx);
+            intern_idx = setdiff(intern_idx, ImageToSpIdx{im}.offset + idx);
             
         end        
     end

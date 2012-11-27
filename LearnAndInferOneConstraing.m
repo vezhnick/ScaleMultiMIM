@@ -132,6 +132,7 @@ end
 %%
 
 fixed_labels =[];
+Ksi = log_Pot * 0;
 
 for k = classes_by_miss
     new_labels = new_labels + 1;
@@ -159,8 +160,7 @@ for k = classes_by_miss
     
     my_labels = new_labels;
     [new_labels E Eafter] = GCMex(new_labels-1, single(full(log_Pot * alpha_opt)' - 1.05 * Ksi'), (1 - alpha_opt) * Gr_tot, labelCost(1:end,1:end),1);
-    %new_labels = active_alpha_mex(  'init',  Gr_tot, sparse(log_Pot / alpha_opt));
-    clear active_alpha_mex
+
     %%
     mass_norm = p_per_sp / sum(p_per_sp(Labels~=0));
     per_pix_acc = sum((new_labels(Labels ~= 0)+1 == Labels(Labels ~= 0)) .* mass_norm(Labels ~= 0));

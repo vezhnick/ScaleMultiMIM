@@ -8,14 +8,12 @@ for l = 1:33
     Gr_c(sp_l,sp_l) = 0;
 end
 
-Ksi = log_Pot * 0;
-
 
 %label_agreement = (L_c*L_c') > 0;
 
 lin_idx = sub2ind(size(log_Pot), [1:size(log_Pot,1)], new_labels');
 
-E_c = alpha_opt * log_Pot(lin_idx) + (1 - alpha_opt) * sum(Gr_c);
+E_c = alpha_opt * log_Pot(lin_idx) - 1.05 * Ksi(lin_idx)+ (1 - alpha_opt) * sum(Gr_c);
 
 %fixed_labels = [1:33] < k;
 
@@ -30,25 +28,24 @@ for im = 1 : length(ImageToSpIdx)
         missed = missed+1;
     end
     
-    for l = labels_diff'
+    if ismember(k, labels_diff) % l = labels_diff'
         
-        E_l = alpha_opt * log_Pot(intern_idx,l)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= l)');
+        E_l = alpha_opt * log_Pot(intern_idx,k)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= k)');
         
         E_d = E_l - E_c(intern_idx);
-        Ksi(intern_idx, l) = min(E_d);
-        
+        Ksi(intern_idx, k) = min(E_d);       
         
     end
     
     
     for l = fixed_labels
         if ismember(l, ImageToSpIdx{im}.labels)
-            
-            E_l = alpha_opt * log_Pot(intern_idx,l)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= l)');
+            E_l = alpha_opt * log_Pot(intern_idx,l)' - 1.05 * Ksi(intern_idx,l)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= l)');
             E_d = E_l - E_c(intern_idx);
             
             [trash min_id] = min(E_d);
             Ksi(ImageToSpIdx{im}.offset + min_id,l) = 10000;
+            intern_idx = setdiff(intern_idx, ImageToSpIdx{im}.offset + min_id);
         end
         
     end

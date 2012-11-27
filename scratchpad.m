@@ -1,3 +1,4 @@
+per_class_miss_before = per_class_miss;
 
 per_class_miss = zeros(1,33);
 
@@ -15,3 +16,8 @@ for im = 1 : length(ImageToSpIdx)
     end
     
 end
+
+bar(per_class_miss_before, 'b');figure(gcf);
+hold on
+bar(per_class_miss, 'r');
+hold off
