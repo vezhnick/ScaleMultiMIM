@@ -33,7 +33,9 @@ for im = 1 : length(ImageToSpIdx)
         E_l = alpha_opt * log_Pot(intern_idx,k)' + (1 - alpha_opt) * sum(Gr_tot(intern_idx, new_labels ~= k)');
         
         E_d = E_l - E_c(intern_idx);
-        Ksi(intern_idx, k) = min(E_d);       
+        [val min_id] = min(E_d);
+        Ksi(intern_idx, k) = val;
+        new_labels(ImageToSpIdx{im}.offset + min_id) = k;
         
     end
     
@@ -46,6 +48,7 @@ for im = 1 : length(ImageToSpIdx)
             [trash min_id] = min(E_d);
             Ksi(ImageToSpIdx{im}.offset + min_id,l) = 10000;
             intern_idx = setdiff(intern_idx, ImageToSpIdx{im}.offset + min_id);
+            new_labels(ImageToSpIdx{im}.offset + min_id) = l;
         end
         
     end

@@ -38,7 +38,7 @@ else
 end
 %%
 Files.Index = 'IndexTest';
-Files.Features = 'FeaturesHistTest';
+Files.Features = 'ERHF_FeaturesTest';
 Files.ILP = 'ILPTest';
 Files.Labels = 'LabelsTest';
 Files.predILP = 'PredILPTest';
