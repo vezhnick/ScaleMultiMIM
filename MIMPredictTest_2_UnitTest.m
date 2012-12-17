@@ -19,7 +19,7 @@ if DoComputeAll
     load('IndexTest');
     
     
-    [max_val max_idx] = max(results.tot_per_class_acc)
+    [max_val max_idx] = max(results.tot_per_class_aggr)
     %max_idx = 5544;
     load(['./Results/' ResultsDir '/output_' num2str(max_idx) '.mat']);
     labels_train = results.inferred_labels;

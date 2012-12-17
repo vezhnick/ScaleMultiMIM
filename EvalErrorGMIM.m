@@ -7,7 +7,7 @@ load IndexTest
 load LabelsTest
 file_list = dir(ImageDir);
 
-ResultsDir = 'Supervised';
+ResultsDir = 'ERHF_PPix';
 
 %feature_names = cell(1);
 features_name = 'super_pixels';
