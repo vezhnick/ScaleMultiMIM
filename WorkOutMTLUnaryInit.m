@@ -6,7 +6,7 @@ for im = 1 : length(ImageToSpIdx)
     FeatWeight = zeros(size(Features,1), TotalLabels);
     %TODO - remove Labels! should be new_labels! Test Code! Labels
     for l = 1 : TotalLabels
-        FeatWeight(:,l) = Features(:,intern_idx) * (new_labels(intern_idx) == l) + 1; %P(w|y)
+        FeatWeight(:,l) = Features(:,intern_idx) * ((ILP(intern_idx,l)' == 1)' + 1);%(new_labels(intern_idx) == l) + 1; %P(w|y)
     end
     
     tot_f = sum(FeatWeight,1).* freq;

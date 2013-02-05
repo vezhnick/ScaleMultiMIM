@@ -58,8 +58,8 @@ TotalLabels = size(ILP,2);
 if ~RF
     %Features = Features .* (repmat(p_per_sp', size(Features,1),1));
     Features = bsxfun(@times,Features,p_per_sp');
-    %WorkOutUnariesReg;
-    WorkOutMTLUnary;
+    %WorkOutUnariesRegInit;
+    WorkOutMTLUnaryInit;
 else
     WorkOutUnariesRF;
 end
@@ -111,8 +111,10 @@ new_labels = init'-1;
 for k = 1 : 3
     new_labels = new_labels + 1;
     if ~RF        
-        WorkOutMTLUnary;
         %WorkOutUnariesReg;
+        %MeanPot = NewPot;
+        WorkOutMTLUnary;
+        %NewPot = 0.5 * NewPot + 0.5 * MeanPot;
     else
         WorkOutUnariesRF;
     end

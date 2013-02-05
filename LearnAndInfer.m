@@ -52,7 +52,7 @@ TotalLabels = size(ILP,2);
 if ~RF
     %Features = Features .* (repmat(p_per_sp', size(Features,1),1));
     Features = bsxfun(@times,Features,p_per_sp');
-    WorkOutUnariesReg;
+    WorkOutUnariesRegInit;
 else
     WorkOutUnariesRF;
 end
